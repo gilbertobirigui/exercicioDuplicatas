@@ -31,13 +31,35 @@ public class ContractService {
     }
     
     // metodo para processar o contrato e parcelas 
-    public void processContract(Contract contract, int month){
+    public void processContract(Contract contract, int months){
         
-        // testar
-        // vou pegar contract ponto getInstalments q é lista de parcelas
-        contract.getInstalments().add(new Installment(LocalDate.of(2018,7,25),206.04));      // ponto add adicionar uma parcela
-        contract.getInstalments().add(new Installment(LocalDate.of(2018,8,25),208.08));
+      // tenho q fazer parcelas no caso ja tenho month mes
+      
+      // vou fazer for para gerar as parcelas
+      
+      for (int i = 1; i <= months; i++){
+          // agora qual vai ser data vencimento de cada parcela
+          // vai ser data original do contratato contract
+          double basicQuota = contract.getTotalValue() / months;           // parcela base  valor total / qtdade mes 
+          LocalDate dueDate = contract.getDate().plusMonths(i);  // i = mes  porque primeira x vai valer 1
+          
+          // calcular juros = interest
+          // fee seria taxa
+          double interest = onlinePaymentService.interest(basicQuota, i);  // i = qtade mes  //chamada consigo calcular juros
+          double fee = onlinePaymentService.paymentFree(basicQuota +interest);  // basicQuota - valor / 3 mais juros
+          
+          double quota =  basicQuota + interest + fee;    // valor total da parcela com juros e multas
+          
+          
+          // tenho q instanciar instalment seria parcelas ou seja fazer um ojeto de cada uma
+          contract.getInstalments().add(new Installment(dueDate, quota));  // aqui criei objeto de cada parcela com data e valor
+          
+          
+      }
         
+       
+       
+       
     }
     
     

@@ -9,7 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Scanner;
 import model.entities.Contract;
+import model.entities.Installment;
 import services.ContractService;
+import services.PaypalService;
 
 /**
  *
@@ -65,13 +67,18 @@ public class Program {
         
         // vou criar meu contracService
         
-        ContractService contractService = new ContractService(null);        
+        ContractService contractService = new ContractService(new PaypalService());        
         
         // vou chamar contractService
-        
+        // processa o contrato e gera as parcelas
         contractService.processContract(obj, n);
         
         System.out.println("PARCELAS");  ///
+        // vou fazer um for para percorrer as parcelas - usar for each
+        // estou fazendo um for para cada obj tiver instalments  *** apelido dele installent  vou imprimir na tela
+        for(Installment installment : obj.getInstalments()){
+            System.out.println(installment);
+        }
         
         sc.close();
         

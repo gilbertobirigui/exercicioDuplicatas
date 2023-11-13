@@ -5,6 +5,7 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -19,7 +20,7 @@ public class Installment {
     private LocalDate date;    // data
     private Double amont;      // quantia da parcela
     
-    
+    public static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     // criar construtor basicao 
     public Installment(){
@@ -52,7 +53,7 @@ public class Installment {
 
     @Override
     public String toString() {
-        return date + " - " + String amont;
+        return date.format(fmt) + " - " + String.format("%.2f", amont);
     }
     
     
